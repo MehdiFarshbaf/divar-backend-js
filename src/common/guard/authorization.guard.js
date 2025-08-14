@@ -6,7 +6,7 @@ import UserModel from "../../modules/user/user.model.js";
 
 dotenv.config();
 
-export const authorizationGuard = async (req, res, next) => {
+export const authorization = async (req, res, next) => {
     try {
         const token = req?.cookies?.access_token;
 
@@ -16,8 +16,8 @@ export const authorizationGuard = async (req, res, next) => {
 
         const data = await jwt.verify(token, process.env.JWT_SECRET);
 
-        if (typeof data ==="object" && "id" in data ) {
-            const user = await UserModel.findById(data.id, {otp: 0})
+        if (typeof data === "object" && "id" in data) {
+            const user = await UserModel.findById(data.id, {otp: 0, updatedAt: 0, verifiedMobile: 0})
             console.log("user is  : ", user)
             if (!user) sendErrorResponse(res, 401, authorizationMessages.notFoundAccount);
             req.user = user;
