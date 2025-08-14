@@ -1,7 +1,6 @@
 import autoBind from 'auto-bind';
 import AuthService from "./auth.service.js";
 import {AuthMessages} from './auth.messages.js';
-import {sendSuccessResponse} from "../../common/responses.js";
 
 class AuthController {
     #service;
@@ -14,7 +13,7 @@ class AuthController {
     async sendOTP(req, res, next) {
         try {
             const {mobile} = req.body
-            const result = await this.#service.sendOTP(mobile)
+            await this.#service.sendOTP(mobile)
             res.json({
                 message: AuthMessages.sendOTPSuccessFully
             })
@@ -27,7 +26,10 @@ class AuthController {
         try {
             const {mobile, code} = req.body
             const token = await this.#service.checkOTP(mobile, code)
-            sendSuccessResponse(res, 200, {token}, AuthMessages.LoginSuccessfully)
+            return res.cookie('access_token', token, {httpOnly: true, secure: process.env.NODE_ENV}).status(200).json({
+                message: AuthMessages.LoginSuccessfully,
+                token
+            });
         } catch (err) {
             next(err);
         }
