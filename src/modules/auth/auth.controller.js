@@ -35,13 +35,6 @@ class AuthController {
         }
     }
 
-    async logout(req, res, next) {
-        try {
-
-        } catch (err) {
-            next(err);
-        }
-    }
 }
 
 export default new AuthController();
