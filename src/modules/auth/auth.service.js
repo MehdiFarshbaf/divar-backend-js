@@ -52,7 +52,7 @@ class AuthService {
             await user.save()
         }
         // return access token
-        return await this.signToken({mobile, id: user._id})
+        return await this.signToken({mobile, id: user._id},)
     }
 
     async logout() {
@@ -69,7 +69,7 @@ class AuthService {
 
     async signToken(payload) {
         // 1000*60*60*24*365
-        return jwt.sign(payload, process.env.JWT_SECRET_KEY, {expiresIn: "1y"})
+        return jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1y"})
     }
 }
 
