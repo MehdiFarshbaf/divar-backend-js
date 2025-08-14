@@ -11,7 +11,7 @@ export const authorization = async (req, res, next) => {
         const token = req?.cookies?.access_token;
 
         if (!token) {
-            sendErrorResponse(res, 401, authorizationMessages.login);
+            sendErrorResponse(authorizationMessages.login, 401);
         }
 
         const data = await jwt.verify(token, process.env.JWT_SECRET);
@@ -19,11 +19,11 @@ export const authorization = async (req, res, next) => {
         if (typeof data === "object" && "id" in data) {
             const user = await UserModel.findById(data.id, {otp: 0, updatedAt: 0, verifiedMobile: 0})
             console.log("user is  : ", user)
-            if (!user) sendErrorResponse(res, 401, authorizationMessages.notFoundAccount);
+            if (!user) sendErrorResponse(authorizationMessages.notFoundAccount, 401);
             req.user = user;
             next()
         }
-        sendErrorResponse(res, 401, authorizationMessages.notFoundAccount);
+        sendErrorResponse(authorizationMessages.notFoundAccount, 401);
     } catch
         (error) {
         next(error);
