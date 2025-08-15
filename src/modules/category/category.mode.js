@@ -16,12 +16,12 @@ const CategorySchema = new Schema({
     },
     parent: {
         type: Types.ObjectId,
-        ref: 'Category',
+        ref: 'category',
         required: false,
     },
     parents: {
         type: [Types.ObjectId],
-        ref: 'Category',
+        ref: 'category',
         required: false,
         default: [],
     }
@@ -35,11 +35,17 @@ const CategorySchema = new Schema({
 })
 
 CategorySchema.virtual('children', {
-    ref: 'Category',
+    ref: 'category',
     localField: '_id',
     foreignField: 'parent',
 })
 
+function autoPopulate(next) {
+    this.populate([{path: "children"}])
+    next()
+}
+
+CategorySchema.pre("find", autoPopulate).pre("findOne", autoPopulate)
 
 const CategoryModel = model("category", CategorySchema);
 

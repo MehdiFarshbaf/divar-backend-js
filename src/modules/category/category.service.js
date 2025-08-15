@@ -38,7 +38,8 @@ class CategoryService {
     }
 
     async find() {
-        return await this.#model.find()
+        // اونایی که پدر ندارند
+        return await this.#model.find({parent: {$exists: false}})
     }
 
     async checkExistingCategoryById(id) {
