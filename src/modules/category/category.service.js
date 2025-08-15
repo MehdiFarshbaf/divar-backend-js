@@ -25,8 +25,6 @@ class CategoryService {
                     [existCategory._id.toString()].concat(existCategory.parents.map(id => id.toString()))
                 ).map(id => new Types.ObjectId(id)))
             ]
-
-
         }
 
         if (categoryDto?.slug) {
@@ -37,7 +35,10 @@ class CategoryService {
         }
         const newCategory = await this.#model.create(categoryDto)
         return newCategory
+    }
 
+    async find() {
+        return await this.#model.find()
     }
 
     async checkExistingCategoryById(id) {
