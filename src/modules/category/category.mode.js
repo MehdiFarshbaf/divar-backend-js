@@ -40,7 +40,6 @@ CategorySchema.virtual('children', {
     foreignField: 'parent',
 })
 
-// export default model("category", CategorySchema)
 
 const CategoryModel = model("category", CategorySchema);
 
