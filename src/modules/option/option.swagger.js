@@ -68,14 +68,41 @@
 
 /**
  * @swagger
- * /option/{categoryId}:
+ * /option/by-category/{categoryId}:
  *  get:
  *      summary: get all options of category
  *      tags:
- *          -   Category
+ *          -   Option
  *      parameters:
  *          -   in: path
  *              name: categoryId
+ *      responses:
+ *          200:
+ *              description: successfully
+ */
+
+/**
+ * @swagger
+ * /option/{id}:
+ *  get:
+ *      summary: get option by id
+ *      tags:
+ *          -   Option
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *      responses:
+ *          200:
+ *              description: successfully
+ */
+
+/**
+ * @swagger
+ * /option:
+ *  get:
+ *      summary: get all options
+ *      tags:
+ *          -   Option
  *      responses:
  *          200:
  *              description: successfully
