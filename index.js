@@ -6,6 +6,8 @@ import appRoutes from "./src/app.routes.js";
 import {NotFoundHandler} from "./src/common/exception/not-found-handler.js";
 import {allExceptionHandler} from "./src/common/exception/all-exception-handler.js";
 import cookieParser from "cookie-parser";
+import cors from 'cors'
+
 
 dotenv.config()
 
@@ -20,6 +22,7 @@ const main = () => {
     connectDB()
 
     // Middleware
+    app.use(cors({credentials: true, origin: '*'}))
     app.use(express.json());
     app.use(express.urlencoded({extended: true}))
     app.use(cookieParser(process.env.COOKIE_SECRET));

@@ -19,7 +19,7 @@ class OptionService {
     async find() {
         const options = await this.#model.find({}, {__v: 0}, {sort: {_id: -1}}).populate([{
             path: "category",
-            select: {name: 1, slugify: 1}
+            select: {name: 1, slug: 1}
         }]);
         return options;
     }
