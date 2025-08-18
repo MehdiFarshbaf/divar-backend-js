@@ -1,9 +1,9 @@
 import autoBind from "auto-bind";
 import OptionModel from "./option.model.js";
 import CategoryModel from "../category/category.mode.js";
-import {sendErrorResponse} from "../../common/responses.js";
-import {CategoryMessages} from "../category/category.messages.js";
-import {OptionMessages} from "./option.messages.js";
+import { sendErrorResponse } from "../../common/responses.js";
+import { CategoryMessages } from "../category/category.messages.js";
+import { OptionMessages } from "./option.messages.js";
 import slugify from "slugify";
 
 class OptionService {
@@ -17,14 +17,22 @@ class OptionService {
     }
 
     async find() {
-        const options = await this.#model.find({}, {__v: 0}, {sort: {_id: -1}}).populate([{
+        const options = await this.#model.find({}, { __v: 0 }, { sort: { _id: -1 } }).populate([{
             path: "category",
-            select: {name: 1, slug: 1}
+            select: { name: 1, slug: 1 }
         }]);
         return options;
     }
 
     async findById(id) {
+        return await this.checkExistById(id)
+    }
+
+    findByCategoryId = async (id) => {
+        return await this.#model.find({ category: id },{__v:0}).populate([{
+            path: "category",
+            select: { name: 1, slug: 1 }
+        }])
     }
 
     async create(optionDto) {
@@ -33,7 +41,7 @@ class OptionService {
         optionDto.category = category._id
 
         // check an existed key
-        optionDto.key = slugify(optionDto.key, {trim: true, replacement: "_", lower: true});
+        optionDto.key = slugify(optionDto.key, { trim: true, replacement: "_", lower: true });
         await this.alreadyExistByCategoryAndKey(optionDto.key, category._id);
 
         if (optionDto?.enum && typeof optionDto.enum === "string") {
@@ -44,8 +52,14 @@ class OptionService {
         return option;
     }
 
+    checkExistById = async (id) => {
+        const option = await this.#model.findById(id)
+        if (!option) sendErrorResponse(OptionMessages.NotFount, 404)
+        return option
+    }
+
     async alreadyExistByCategoryAndKey(key, categoryId) {
-        const isExist = await this.#model.findOne({category: categoryId, key})
+        const isExist = await this.#model.findOne({ category: categoryId, key })
         if (isExist) sendErrorResponse(OptionMessages.AlreadyExist, 409)
         return null
     }
