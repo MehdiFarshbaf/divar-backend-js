@@ -20,6 +20,10 @@
  *                      type: string
  *                      description: The key used to identify the option
  *                      example: ""
+ *                  required:
+ *                      type: boolean
+ *                      description: required field
+ *                      example: false
  *                  type:
  *                      type: string
  *                      enum: ["number","string","array","boolean"]
@@ -44,6 +48,40 @@
  *                  - type
  *                  - key
  *                  - category
+ *          UpdateOption:
+ *              type: object
+ *              properties:
+ *                  title:
+ *                      type: string
+ *                      description: The title of the option
+ *                      example: ""
+ *                  key:
+ *                      type: string
+ *                      description: The key used to identify the option
+ *                      example: ""
+ *                  required:
+ *                      type: boolean
+ *                      description: required field
+ *                      example: false
+ *                  type:
+ *                      type: string
+ *                      enum: ["number","string","array","boolean"]
+ *                      description: The data type of the option
+ *                      example: "boolean"
+ *                  enum:
+ *                      type: array
+ *                      items:
+ *                          type: string
+ *                      description: Possible values for the option (if applicable)
+ *                      example: ["red","blue","green"]
+ *                  category:
+ *                      type: string
+ *                      format: objectid
+ *                      description: Reference to the category this option belongs to
+ *                      example: ""
+ *                  guid:
+ *                      type: string
+ *                      example: ""
  */
 
 /**
@@ -64,6 +102,30 @@
  *      responses:
  *          201:
  *              description: created
+ */
+
+/**
+ * @swagger
+ * /option/{id}:
+ *  put:
+ *      summary: update option by id
+ *      tags:
+ *          -   Option
+ *      parameters:
+ *          -   in: path
+ *              name: id
+ *              description: optionId
+ *      requestBody:
+ *          content:
+ *              application/x-www-form-urlencoded:
+ *                  schema:
+ *                      $ref: '#/components/schemas/UpdateOption'
+ *              application/json:
+ *                  schema:
+ *                      $ref: '#/components/schemas/UpdateOption'
+ *      responses:
+ *          201:
+ *              description: updated option
  */
 
 /**

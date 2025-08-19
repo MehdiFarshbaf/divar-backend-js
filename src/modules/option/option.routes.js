@@ -9,5 +9,6 @@ router.get("/by-category-slug/:slug", optionController.findOptionsByCategorySlug
 router.get("/:id", optionController.findById);
 router.delete("/:id", optionController.deleteOptionById);
 router.get("/", optionController.find);
+router.put("/:id", optionController.update);
 
 export default router;
