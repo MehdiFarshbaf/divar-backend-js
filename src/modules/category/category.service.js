@@ -4,13 +4,16 @@ import {sendErrorResponse} from "../../common/responses.js";
 import {CategoryMessages} from "./category.messages.js";
 import slugify from "slugify";
 import {isValidObjectId, Types} from "mongoose";
+import OptionModel from "../option/option.model.js";
 
 class CategoryService {
     #model
+    #optionModel
 
     constructor() {
         autoBind(this)
         this.#model = CategoryModel
+        this.#optionModel = OptionModel
     }
 
     async createCategory(categoryDto) {
@@ -40,6 +43,14 @@ class CategoryService {
     async find() {
         // اونایی که پدر ندارند
         return await this.#model.find({parent: {$exists: false}})
+    }
+
+    deleteCategory = async (id) => {
+        await this.checkExistingCategoryById(id)
+        await this.#optionModel.deleteMany({category: id}).then(async () => {
+            await this.#model.deleteOne({_id: id})
+        })
+        return true
     }
 
     async checkExistingCategoryById(id) {

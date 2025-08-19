@@ -49,9 +49,25 @@
  * @swagger
  * /category:
  *  get:
- *      summary: get all categories
+ *      summary: get all category
  *      tags:
  *          -   Category
+ *      responses:
+ *          200:
+ *              description: successfully
+ */
+
+/**
+ * @swagger
+ * /category/{id}:
+ *  delete:
+ *      summary: get all category
+ *      tags:
+ *          -   Category
+ *     parameters:
+ *          -   in: path
+ *              name: id
+ *              description: category id
  *      responses:
  *          200:
  *              description: successfully

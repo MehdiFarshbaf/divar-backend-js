@@ -30,6 +30,16 @@ class CategoryController {
         }
     }
 
+    deleteCategoryById = async (req, res, next) => {
+        try {
+            const {id} = req.params
+            await this.#service.deleteCategory(id)
+            sendSuccessResponse(res, 200, undefined, CategoryMessages.Deleted)
+        } catch (err) {
+            next(err)
+        }
+    }
+
 }
 
 export default new CategoryController()
