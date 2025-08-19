@@ -57,6 +57,16 @@ class OptionController {
         const options = await this.#service.findOptionsByCategorySlug(slug)
         sendSuccessResponse(res, 200, options)
     }
+
+    deleteOptionById = async (req, res, next) => {
+        try {
+            const {id} = req.params
+            await this.#service.deleteOptionById(id)
+            sendSuccessResponse(res, 200, undefined, OptionMessages.Deleted)
+        } catch (error) {
+            next(error)
+        }
+    }
 }
 
 export default new OptionController()

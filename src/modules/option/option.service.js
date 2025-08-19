@@ -53,6 +53,11 @@ class OptionService {
 
     }
 
+    deleteOptionById = async (id) => {
+        await this.checkExistById(id)
+        await this.#model.deleteOne({_id: id})
+    }
+
     // lookup خالی یک ارایه میده
 
     findOptionsByCategorySlug = async (slug) => {
@@ -86,7 +91,7 @@ class OptionService {
                     // "category.createdAt": 0,
                     // "category.updatedAt": 0,
                     // __v: 0
-                    category:0
+                    category: 0
                 }
             },
         ])
