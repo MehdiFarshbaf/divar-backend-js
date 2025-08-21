@@ -87,7 +87,7 @@ class OptionService {
 
         // const option = await this.#model.updateOne({_id: id}, {$set: optionDto});
         // return option;
-        return  await this.#model.updateOne({_id: id}, {$set: optionDto});
+        return await this.#model.updateOne({_id: id}, {$set: optionDto});
         // return option;
     }
 
@@ -129,9 +129,14 @@ class OptionService {
                     // "category.createdAt": 0,
                     // "category.updatedAt": 0,
                     // __v: 0
-                    category: 0
+                    category: 0,
+                    __v: 0,
                 }
-            },
+            }, {
+                $match: {
+                    categorySlug: slug
+                }
+            }
         ])
         return options;
     }

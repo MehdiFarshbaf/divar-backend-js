@@ -32,6 +32,9 @@
  *      summary: create new category
  *      tags:
  *          -   Category
+ *      parameters:
+ *          -   in: path
+ *              name: id
  *      requestBody:
  *          content:
  *              application/x-www-form-urlencoded:
@@ -64,10 +67,6 @@
  *      summary: get all category
  *      tags:
  *          -   Category
- *     parameters:
- *          -   in: path
- *              name: id
- *              description: category id
  *      responses:
  *          200:
  *              description: successfully
